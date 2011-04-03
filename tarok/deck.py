@@ -14,6 +14,11 @@ class Card:
             return 1
         if self.rank < other.rank:
             return -1
+        if self.rank == other.rank:
+            if self.suit == other.suit:
+                raise Exception("No card in deck should be the same")
+            else:
+                return 0
 
     def __repr__(self):
         return str(self.name)
@@ -29,6 +34,13 @@ class Tarok(Card):
     def __init__(self, suit, rank):
         Card.__init__(self, suit, rank)
         self.name = "Tarok " + self.rank_list_tarok[self.rank - 1]
+        self.__set_weight()
+
+    def __set_weight(self):
+        if self.rank == 1 or self.rank == 21 or self.rank == 22:
+            self.weight = 5
+        else:
+            self.weight = 1
 
 
 class Suits(Card):
@@ -51,6 +63,11 @@ class Suits(Card):
                 " of " + self.suit_list[self.suit - 1]
         self.__set_weight()
 
+    def __set_weight(self):
+        if self.rank >= 5:
+            self.weight = self.rank - 3
+        else:
+            self.weight = 1
 
 
 class Deck:
