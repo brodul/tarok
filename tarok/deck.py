@@ -8,8 +8,7 @@ class Card:
         self.rank = rank
 
     def __cmp__(self, other):
-
-        if self.suite == 4 and  self.suite > other.suite:
+        if self.suit == 5 and  self.suit > other.suit:
             return 1
         if self.rank > other.rank:
             return 1
@@ -26,9 +25,10 @@ class Tarok(Card):
         "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "IXX",
         "XX", "XXI", "XXII", ]
 
+    # XXX do we really need a rank for Tarok card class
     def __init__(self, suit, rank):
         Card.__init__(self, suit, rank)
-        self.name = "Tarok " + self.rank_list_tarok[self.rank]
+        self.name = "Tarok " + self.rank_list_tarok[self.rank - 1]
 
 
 class Suits(Card):
@@ -43,23 +43,25 @@ class Suits(Card):
     def __init__(self, suit, rank):
         Card.__init__(self, suit, rank)
 
-        if self.suit < 2:
-            self.name = self.rank_list_red[self.rank] + " of "
-            + self.suit_list[self.suit]
-        if self.suit is 2 or self.suit is 3:
-            self.name = self.rank_list_black[self.rank] + " of "
-            + self.suit_list[self.suit]
+        if self.suit < 3:
+            self.name = self.rank_list_red[self.rank - 1] + \
+                " of " + self.suit_list[self.suit - 1]
+        if self.suit is 3 or self.suit is 4:
+            self.name = self.rank_list_black[self.rank - 1] + \
+                " of " + self.suit_list[self.suit - 1]
+        self.__set_weight()
+
 
 
 class Deck:
 
     def __init__(self):
         self.cards = []
-        for suit in range(4):
-            for rank in range(8):
+        for suit in range(1, 5):
+            for rank in range(1, 9):
                 self.cards.append(Suits(suit, rank))
-        for rank in range(22):
-            self.cards.append(Tarok(4, rank))
+        for rank in range(1, 23):
+            self.cards.append(Tarok(5, rank))
         for n in range(5):
             self.shuffle()
 
