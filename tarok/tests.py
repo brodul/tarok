@@ -31,6 +31,33 @@ class TestSuitsCreation(unittest.TestCase):
         self.black = deck.Suits(4, 3)
         self.assertEqual(repr(self.black), "9 of Clubs")
 
+
+class TestCardComparison(unittest.TestCase):
+
+    def setUp(self):
+        self.lower = deck.Suits(3, 5)
+        self.lower2 = deck.Suits(1, 5)
+        self.higher = deck.Suits(2, 6)
+        self.tarok = deck.Tarok(5, 1)
+
+    def test_equal(self):
+        self.assertRaises(Exception, self.lower.__cmp__, self.lower)
+        self.assertRaises(Exception, self.higher.__cmp__, self.higher)
+        self.assertRaises(Exception, self.tarok.__cmp__, self.tarok)
+
+    def test_equal_rank(self):
+        self.assertTrue(self.lower == self.lower2)
+
+    def test_not_equal(self):
+        self.assertNotEqual(self.lower, self.higher)
+        self.assertNotEqual(self.higher, self.tarok)
+        self.assertNotEqual(self.tarok, self.lower)
+
+    def test_self_greater(self):
+        self.assertTrue(self.higher > self.lower)
+        self.assertTrue(self.tarok > self.lower)
+
+
 class TestDeck(unittest.TestCase):
 
     def setUp(self):
@@ -39,3 +66,23 @@ class TestDeck(unittest.TestCase):
     def test_shuffle(self):
         self.deck1.shuffle()
 
+
+class TestCount(unittest.TestCase):
+
+    def setUp(self):
+        self.deck = deck.Deck()
+        self.discard = end.Discard()
+        self.example = [deck.Suits(1, 1), deck.Suits(1, 2), deck.Suits(1, 3),
+                        deck.Tarok(5, 1), deck.Suits(4, 8)]
+
+    def test_count_deck(self):
+        self.discard.list = self.deck.cards
+        self.assertEqual(self.discard.count(), 70)
+
+    def test_count_two_cards(self):
+        self.discard.list = self.example[2:]
+        self.assertEqual(self.discard.count(), 9)
+
+    def test_count_five_cards(self):
+        self.discard.list = self.example
+        self.assertEqual(self.discard.count(), 10)
