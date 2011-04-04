@@ -76,13 +76,13 @@ class TestCount(unittest.TestCase):
                         deck.Tarok(5, 1), deck.Suits(4, 8)]
 
     def test_count_deck(self):
-        self.discard.list = self.deck.cards
+        self.discard.cards = self.deck.cards
         self.assertEqual(self.discard.count(), 70)
 
     def test_count_two_cards(self):
-        self.discard.list = self.example[2:]
+        self.discard.cards = self.example[2:]
         self.assertEqual(self.discard.count(), 9)
 
     def test_count_five_cards(self):
-        self.discard.list = self.example
+        self.discard.cards = self.example
         self.assertEqual(self.discard.count(), 10)
