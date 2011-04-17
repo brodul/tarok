@@ -63,8 +63,26 @@ class TestDeck(unittest.TestCase):
     def setUp(self):
         self.deck1 = deck.Deck()
 
-    def test_shuffle(self):
-        self.deck1.shuffle()
+    def test_deck_len(self):
+        self.assertEqual(len(self.deck1.cards), 54)
+
+    def test_deal_two(self):
+        list = self.deck1.deal(2, 15)
+        self.assertEqual(len(list), 3)
+        self.assertEqual(len(list[-1].cards), 24)
+
+    def test_deal_tree(self):
+        list = self.deck1.deal(3, 16)
+        self.assertEqual(len(list), 4)
+        self.assertEqual(len(list[-1].cards), 6)
+
+    def test_deal_four(self):
+        list = self.deck1.deal(4, 12)
+        self.assertEqual(len(list), 5)
+        self.assertEqual(len(list[-1].cards), 6)
+
+    def test_print_deck(self):
+        self.assertTrue(isinstance(self.deck1.__str__(), basestring))
 
 
 class TestCount(unittest.TestCase):
