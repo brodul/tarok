@@ -1,5 +1,6 @@
 import random
 
+import subgame
 
 class Card:
     """Base class for cards"""
@@ -11,6 +12,7 @@ class Card:
     def __cmp__(self, other):
         """Compare rules for cards
 
+        This is only used for sort.
         The tarok card with rank 5 allways wins.
         """
 
@@ -29,12 +31,11 @@ class Card:
     def __repr__(self):
         return str(self.name)
 
-
 class Tarok(Card):
     """Class for tarok cards
 
     The tarok cards do NOT have a rank precoded, it's recomended that you use
-    rank 5. Allso the weigth for counting at the end of the game is applyed.
+    rank 5. Also the weigth for counting at the end of the game is applyed.
     """
 
     rank_list_tarok = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX",
@@ -60,7 +61,7 @@ class Suits(Card):
     """Class for suited cards
 
     The correct rank for the red and black numbers is applyed.
-    Weight for counting in the end is allso apllyed.
+    Weight for counting in the end is also applyed.
     """
 
     suit_list = ["Diamonds", "Hearts", "Spades", "Clubs"]
@@ -103,8 +104,7 @@ class Deck:
                 self.cards.append(Suits(suit, rank))
         for rank in range(1, 23):
             self.cards.append(Tarok(5, rank))
-        for n in range(5):
-            self.shuffle()
+        self.shuffle()
 
     def __str__(self):
         string = ""
@@ -125,6 +125,7 @@ class Deck:
 
         and returns a list od Player and Talon instances
         """
+        # TODO Why do i need cards_each as a parm
 
         hand_list = []
         # XXX ugly

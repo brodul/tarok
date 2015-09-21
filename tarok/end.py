@@ -6,7 +6,8 @@ import math
 class Discard(Deck):
     """"""
 
-    def __init__(self):
+    def __init__(self, player):
+        self.player = player
         self.cards = []
         self.splitted = []
 
